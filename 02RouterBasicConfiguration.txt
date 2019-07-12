@@ -1,0 +1,61 @@
+Basic Router Configuration
+===========================
+Would you like to enter the initial configuration dialog? [yes/no]: no
+
+Command for User Exec Mode to Privileged Mode
+==============================================
+Router>enable
+
+Command for Privileged Mode to Configuration Mode
+==================================================
+Router#configure terminal
+
+Setup Hostname
+===============
+Router(config)#hostname  R1
+Note: Here, R1 is the hostname
+
+Configure Passwords in Router
+==============================
+1. Privileged Mode Password Setup
+==================================
+R1(config)#enable password cricket
+Note: Here, cricket is the password
+
+R1(config)#no enable password    --->Delete password from privileged mode
+
+2. Privileged Mode Secret Password Setup
+=========================================
+R1(config)#enable secret cricket
+R1(config)#no enable secret --->Delete secret password from privileged mode
+
+Encrypted all the Passwords of a Router
+========================================
+R1(config)#service password-encryption
+
+Set a Minimum Length of Passwords
+==================================
+R1(config)#security passwords min-length 8
+Note: Here, 8 is the minimum length
+
+To View the Running Configuration of a Router
+==============================================
+R1#show running-config 
+Note: This command works in the Privileged Mode
+
+Setup Banner Message
+=====================
+R1(config)#banner motd $Hello World!$
+Note: Message should be between two dollar signs($)
+
+Assign IPv4 Address to an Interface of a Router
+================================================
+R1(config)#int f0/0
+R1(config-if)#ip address 172.16.2.2 255.255.255.128
+R1(config-if)#no shutdown 
+R1(config-if)#exit
+
+R1(config)#int f0/1
+R1(config-if)#ip address 172.16.1.2 255.255.255.0
+R1(config-if)#no shutdown 
+R1(config-if)#exit
