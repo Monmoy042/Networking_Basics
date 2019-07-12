@@ -1,9 +1,9 @@
 Steps to ping from PC-A to PC-B
 ===============================
-1. Configure Ip address and subnet mask to PCA-A 
+1. Configure Ip address and subnet mask to PC-A
     Ip Address: 192.168.0.1
     Subnet Mask: 255.255.0.0
-2. Configure Ip address and subnet mask to PCA-B 
+2. Configure Ip address and subnet mask to PC-B
     Ip Address: 192.168.0.2
     Subnet Mask: 255.255.0.0
 3. Open Command Prompt of PC-A. Then write ping 172.168.0.2
