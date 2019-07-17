@@ -1,9 +1,9 @@
-Basic Router Configuration
-===========================
-Would you like to enter the initial configuration dialog? [yes/no]: no
+##Basic Router Configurations
+==============================
 
 Command for User Exec Mode to Privileged Mode
 ==============================================
+Would you like to enter the initial configuration dialog? [yes/no]: no
 Router>enable
 
 Command for Privileged Mode to Configuration Mode
