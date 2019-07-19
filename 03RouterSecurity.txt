@@ -1,0 +1,38 @@
+#Router Security(Prevent all the ways to access a router)
+==========================================================
+Basically here, we will secure a router with the access of Telnet
+
+Set the IP Address to Interfaces
+==================================
+Router0   Router>enable
+Router0   Router#conf terminal 
+Router0   Router(config)#interface f0/0
+Router0   Router(config-if)#ip address 172.16.1.254 255.255.255.0
+Router0   Router(config-if)#no shutdown
+Router0   Router(config-if)#exit
+
+Router0   Router(config)#interface f0/1
+Router0   Router(config-if)#ip address 172.16.2.62 255.255.255.192
+Router0   Router(config-if)#no shutdown
+Router(config-if)#exit
+
+Set the Privileged Mode Password
+==================================
+Router0   Router(config)#enable secret password cricket
+
+Encrypted All the Passwords
+============================
+Router(config)#service password-encryption
+
+Line Console and Line VTY Protection
+=====================================
+Router0   Router(config)#line console 0
+Router0   Router(config-line)#password 123456
+Router0   Router(config-line)#login
+Router0   Router(config-line)#exit
+
+Router0   Router(config)#line vty 0 4
+Router0   Router(config-line)#password 123456
+Router0   Router(config-line)#login exit
+Router0   Router(config-line)#login
+Router0   Router(config-line)#exit
