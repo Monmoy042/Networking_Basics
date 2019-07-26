@@ -1,0 +1,40 @@
+
+Change the Hostname
+====================
+Router(config)#hostname HQ
+
+Set Domain Name of SSH Setting
+================================
+HQ(config)#ip domain-name google.com
+
+Configure Crypto Key for SSH
+=============================
+HQ(config)#crypto key generate rsa 
+
+SSH Configure on line VTY
+==========================
+HQ(config)#line vty 0 4
+HQ(config-line)#transport input ssh 
+HQ(config-line)#exit
+
+SSH Parameter Setting
+======================
+HQ(config)#ip ssh version 2
+HQ(config)#ip ssh time-out 60
+HQ(config)#ip ssh authentication-retries 5
+
+Configure User Database
+========================
+HQ(config)#username Admin secret admin1234
+HQ(config)#username Monmoy secret monmoy1234
+HQ(config)#username John secret john1234
+
+Setting for User Database
+==========================
+HQ(config)#line console 0
+HQ(config-line)#login local 
+HQ(config-line)#exit
+
+HQ(config)#line vty 0 4
+HQ(config-line)#login local 
+HQ(config-line)#exit
