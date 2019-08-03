@@ -1,0 +1,60 @@
+
+Configure ip address to the interfaces
+-----------------------------------------
+Router6   Router>enable 
+Router6   Router#configure terminal 
+Router6   Router(config)#interface g0/0
+Router6   Router(config-if)#ip address 192.168.1.2 255.255.255.128
+Router6   Router(config-if)#no shutdown 
+Router6   Router(config-if)#exit
+
+Router6   Router(config)#interface g0/1
+Router6   Router(config-if)#ip address 172.16.10.2 255.255.255.224
+Router6   Router(config-if)#no shutdown 
+Router6   Router(config-if)#exit
+
+Router6   Router(config)#interface g0/2
+Router6   Router(config-if)#ip address 172.16.8.2 255.255.255.192
+Router6   Router(config-if)#no shutdown 
+Router6   Router(config-if)#exit
+
+Copy Running Configuration to Startup Configuration
+----------------------------------------------------
+Router#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+
+Backup running Configuration to TFTP Server
+--------------------------------------------
+Router#copy running-config tftp: 
+Address or name of remote host []? 172.16.10.30
+Destination filename [Router-confg]? myBackUpFile
+
+Writing running-config....!!
+[OK - 738 bytes]
+
+Note: 
+=====
+1. Here, we will give the TFTP server's ip address i.e. 172.6.10.30
+2. Back up file name is myBackUpFile
+
+DNS Server Setting
+-------------------
+    a) First go to the DNS server
+    b) Then go to services
+    c) Then go to DNS from the left menubar
+    d) Press on button to start the DNS service
+    e) Give the name as www.google.com and address as 172.16.10.30
+    f)  Finally click on Add
+
+Note: Here you should configure the dns address to all the end users and servers as 172.16.10.30
+
+Browse google.com from Sales PC2
+---------------------------------
+    A) Open Sales PC2
+    B) Go to the Web Browser
+    C) Write www.google.com on the URL bar and hit enter
+
+
+ 
