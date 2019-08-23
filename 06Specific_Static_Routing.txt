@@ -1,0 +1,54 @@
+// Static Routing (Specific)
+=============================
+    In a Specific Routing we can discover a particular network.
+    
+//Assign IP address in Router1 
+-------------------------------
+Router>enable
+Router#configure terminal
+Router(config)#hostname Router1
+
+Router1(config)#interface f0/0
+Router1(config-if)#ip address 172.16.2.2 255.255.255.128
+Router1(config-if)#no shutdown 
+Router1(config-if)#description Admin Department
+Router1(config-if)#exit
+
+Router1(config)#interface s0/3/0
+Router1(config-if)#ip address 12.12.12.1 255.255.255.252
+Router1(config-if)#no shutdown 
+Router1(config-if)#exit
+
+//Assign IP Address in Router2
+--------------------------------
+Router>enable 
+Router#configure terminal 
+Router(config)#hostname Router2
+
+Router2(config)#int f0/0
+Router2(config-if)#ip address 172.16.1.2 255.255.255.0
+Router2(config-if)#no shutdown 
+Router2(config-if)#description Sales Department
+Router2(config-if)#exit
+
+Router2(config)#interface f0/1
+Router2(config-if)#description IT Department
+Router2(config-if)#ip address 172.16.3.2 255.255.255.192
+Router2(config-if)#no shutdown 
+Router2(config-if)#exit
+
+Router2(config)#interface s0/3/1
+Router2(config-if)#ip address 12.12.12.2 255.255.255.252
+Router2(config-if)#no shutdown 
+Router2(config-if)#exit
+
+
+// Specific Routing Configuration
+==================================
+Router1(config)#ip route 172.16.1.0 255.255.255.0 s0/3/0
+Router2(config)#ip route 172.16.2.0 255.255.255.128 12.12.12.1
+
+Note
+-----
+    1. For connecting 2 Routers we just only need 2 valid ip addresses
+    2. Here, In Specific Routing we can use next hop address(12.12.12.0/30) or next hop interface(s0/3/0 or s0/3/1)
