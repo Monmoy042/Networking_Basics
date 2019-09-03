@@ -1,0 +1,71 @@
+Branch-1   Router>enable
+Branch-1   Router#configure terminal 
+Branch-1   Router(config)#hostname Branch-1
+
+Branch-1   Branch-1(config)#interface f0/0
+Branch-1   Branch-1(config-if)#description Admin
+Branch-1   Branch-1(config-if)#ip address 172.16.10.2 255.255.255.248
+Branch-1   Branch-1(config-if)#no shutdown 
+Branch-1   Branch-1(config-if)#exit
+
+Branch-1   Branch-1(config)#interface f0/1
+Branch-1   Branch-1(config-if)#description Sales
+Branch-1   Branch-1(config-if)#ip address 172.16.1.2 255.255.255.0
+Branch-1   Branch-1(config-if)#no shutdown 
+Branch-1   Branch-1(config-if)#exit
+
+Branch-1   Branch-1(config)#interface s0/3/0
+Branch-1   Branch-1(config-if)#description Branch-1
+Branch-1   Branch-1(config-if)#ip address 12.12.12.1 255.255.255.252
+Branch-1   Branch-1(config-if)#no shutdown 
+Branch-1   Branch-1(config-if)#exit
+
+Branch-2   Router>enable 
+Branch-2   Router#configure terminal 
+Branch-2   Router(config)#interface g0/0
+Branch-2   Router(config-if)#description Marketing
+Branch-2   Router(config-if)#ip address 172.16.3.2 255.255.255.192
+Branch-2   Router(config-if)#no shutdown 
+Branch-2   Router(config-if)#exit
+
+Branch-2   Router(config)#interface g0/1
+Branch-2   Router(config-if)#description IT
+Branch-2   Router(config-if)#ip address 172
+Branch-2   Router(config-if)#ip address 172.16.2.2 255.255.255.128
+Branch-2   Router(config-if)#no shutdown 
+Branch-2   Router(config-if)#exit
+
+Branch-2   Router(config)#interface g0/2
+Branch-2   Router(config-if)#description HR
+Branch-2   Router(config-if)#ip address 172.16.5.2 255.255.255.240
+Branch-2   Router(config-if)#no shutdown 
+Branch-2   Router(config-if)#exit
+
+Branch-2   Router(config)#interface s0/3/1
+Branch-2   Router(config-if)#description Branch-2
+Branch-2   Router(config-if)#ip address 12.12.12.2 255.255.255.252
+Branch-2   Router(config-if)#no shutdown 
+Branch-2   Router(config-if)#exit
+
+Branch-2   Router(config)#hostname Branch-2
+Branch-2   Branch-2(config)#exit
+
+Branch-2   Branch-2#show running-config 
+Branch-2   Branch-2>enable 
+Branch-2   Branch-2#configure terminal 
+Branch-2   Branch-2(config)#ip route 172.16.0.0 255.255.252.0 12.12.12.2
+Branch-2   Branch-2(config)#ip route 172.16.0.0 255.255.252.0 12.12.12.1
+
+Branch-1   Branch-1>enable 
+Branch-1   Branch-1#configure terminal 
+Branch-1   Branch-1(config)#ip route 172.16.3.0 255.255.255.224 12.12.12.2
+Branch-1   Branch-1(config)#ip route 172.16.0.0 255.255.248.0 12.12.12.2
+
+Branch-2   Branch-2>enable 
+Branch-2   Branch-2#show running-config 
+Branch-2   Branch-2#configure terminal 
+Branch-2   Branch-2(config)#no ip route
+Branch-2   Branch-2(config)#no ip route 172.16.0.0
+Branch-2   Branch-2(config)#no ip route 172.16.0.0 255.255.252.0 12.12.12.1
+Branch-2   Branch-2(config)#do show run
+Branch-2   Branch-2(config)#ip route 172.16.0.0 255.255.240.0 12.12.12.1
