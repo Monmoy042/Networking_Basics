@@ -1,3 +1,5 @@
+Branch-1 Router Configuration
+-------------------------------
 Branch-1   Router>enable
 Branch-1   Router#configure terminal 
 Branch-1   Router(config)#hostname Branch-1
@@ -20,52 +22,65 @@ Branch-1   Branch-1(config-if)#ip address 12.12.12.1 255.255.255.252
 Branch-1   Branch-1(config-if)#no shutdown 
 Branch-1   Branch-1(config-if)#exit
 
+Brach-2 Router Configuration
+-----------------------------
 Branch-2   Router>enable 
 Branch-2   Router#configure terminal 
-Branch-2   Router(config)#interface g0/0
-Branch-2   Router(config-if)#description Marketing
-Branch-2   Router(config-if)#ip address 172.16.3.2 255.255.255.192
-Branch-2   Router(config-if)#no shutdown 
-Branch-2   Router(config-if)#exit
-
-Branch-2   Router(config)#interface g0/1
-Branch-2   Router(config-if)#description IT
-Branch-2   Router(config-if)#ip address 172
-Branch-2   Router(config-if)#ip address 172.16.2.2 255.255.255.128
-Branch-2   Router(config-if)#no shutdown 
-Branch-2   Router(config-if)#exit
-
-Branch-2   Router(config)#interface g0/2
-Branch-2   Router(config-if)#description HR
-Branch-2   Router(config-if)#ip address 172.16.5.2 255.255.255.240
-Branch-2   Router(config-if)#no shutdown 
-Branch-2   Router(config-if)#exit
-
-Branch-2   Router(config)#interface s0/3/1
-Branch-2   Router(config-if)#description Branch-2
-Branch-2   Router(config-if)#ip address 12.12.12.2 255.255.255.252
-Branch-2   Router(config-if)#no shutdown 
-Branch-2   Router(config-if)#exit
-
 Branch-2   Router(config)#hostname Branch-2
-Branch-2   Branch-2(config)#exit
+Branch-2   Branch-2(config)#interface g0/0
+Branch-2   Branch-2(config-if)#description Marketing
+Branch-2   Branch-2(config-if)#ip address 172.16.3.2 255.255.255.192
+Branch-2   Branch-2(config-if)#no shutdown 
+Branch-2   Branch-2(config-if)#exit
 
-Branch-2   Branch-2#show running-config 
-Branch-2   Branch-2>enable 
-Branch-2   Branch-2#configure terminal 
-Branch-2   Branch-2(config)#ip route 172.16.0.0 255.255.252.0 12.12.12.2
-Branch-2   Branch-2(config)#ip route 172.16.0.0 255.255.252.0 12.12.12.1
+Branch-2   Branch-2(config)#interface g0/1
+Branch-2   Branch-2(config-if)#description IT
+Branch-2   Branch-2(config-if)#ip address 172
+Branch-2   Branch-2(config-if)#ip address 172.16.2.2 255.255.255.128
+Branch-2   Branch-2(config-if)#no shutdown 
+Branch-2   Branch-2(config-if)#exit
 
+Branch-2   Branch-2(config)#interface g0/2
+Branch-2   Branch-2(config-if)#description HR
+Branch-2   Branch-2(config-if)#ip address 172.16.5.2 255.255.255.240
+Branch-2   Branch-2(config-if)#no shutdown 
+Branch-2   Branch-2(config-if)#exit
+
+Branch-2   Branch-2(config)#interface s0/3/1
+Branch-2   Branch-2(config-if)#description Branch-2
+Branch-2   Branch-2(config-if)#ip address 12.12.12.2 255.255.255.252
+Branch-2   Branch-2(config-if)#no shutdown 
+Branch-2   Branch-2(config-if)#exit
+
+Summary Network Configuration in Branch-1 Router
+--------------------------------------------------
 Branch-1   Branch-1>enable 
 Branch-1   Branch-1#configure terminal 
-Branch-1   Branch-1(config)#ip route 172.16.3.0 255.255.255.224 12.12.12.2
 Branch-1   Branch-1(config)#ip route 172.16.0.0 255.255.248.0 12.12.12.2
 
+Summary Network Configuration in Branch-2 Router
+--------------------------------------------------
 Branch-2   Branch-2>enable 
-Branch-2   Branch-2#show running-config 
 Branch-2   Branch-2#configure terminal 
-Branch-2   Branch-2(config)#no ip route
-Branch-2   Branch-2(config)#no ip route 172.16.0.0
-Branch-2   Branch-2(config)#no ip route 172.16.0.0 255.255.252.0 12.12.12.1
-Branch-2   Branch-2(config)#do show run
 Branch-2   Branch-2(config)#ip route 172.16.0.0 255.255.240.0 12.12.12.1
+
+# Summary Network and Subnet-Mask Calculation
+==============================================
+*** By using the summary static routing we can discover a whole local area network.
+Here, Sales Department Network: 172.16.1.0/24
+      Admin Department Network: 172.16.10.0/29
+
+Sales:   10101100.00010000.00000001.00000000
+Admin:   10101100.00010000.00001010.00000000
+Summary: 10101100.00010000.00000000.00000000
+So, for configuring the summary network we need to change the bits of an octet as zero(0) when the bits will mismatched in two or more networks. 
+Here, the summary network will be : 172.16.0.0/20
+So the Subnet-Mask will be : 255.255.240.0
+
+Note: During the configuration of Summary Static Routing we need to use this Subnet-Mask.
+
+Configuration
+---------------
+ip route [Summary Network Address] [Subnet-Mask] [Exit-Interface/Next Hop Address]
+Example: Branch-2(config)#ip route 172.16.0.0 255.255.240.0 12.12.12.1
+Here, 12.12.12.1 is the Next Hop Ip Address
