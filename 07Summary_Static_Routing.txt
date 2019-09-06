@@ -1,3 +1,11 @@
+Router Connections
+-------------------
+Here, for connecting two routers each other we have to use Serial DTE cable. Generally router's do not have Serial DTE cable ports. So, we need to plugin a module for router's to connect Serial DTE cable.
+    1. Turn off your Router's
+    2. Select HWIC-2T module from the MODULES sidebar
+    3. Drag and drop the HWIC-2T module to the router
+    4. Turn on your router
+    
 Branch-1 Router Configuration
 -------------------------------
 Branch-1   Router>enable
