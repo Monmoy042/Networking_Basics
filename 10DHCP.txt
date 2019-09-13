@@ -1,65 +1,109 @@
-মঙ্গল সেপ্টেম্বর 10 11:57:30 2019   HQ   Router>enable 
-মঙ্গল সেপ্টেম্বর 10 11:57:33 2019   HQ   Router#configure terminal 
-মঙ্গল সেপ্টেম্বর 10 11:57:41 2019   HQ   Router(config)#hostname HQ
-মঙ্গল সেপ্টেম্বর 10 11:57:49 2019   HQ   HQ(config)#interface f0/0
-মঙ্গল সেপ্টেম্বর 10 11:57:59 2019   HQ   HQ(config-if)#description Admin
-মঙ্গল সেপ্টেম্বর 10 11:58:19 2019   HQ   HQ(config-if)#ip address 172.16.10.2 255.255.255.192
-মঙ্গল সেপ্টেম্বর 10 11:58:24 2019   HQ   HQ(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 11:58:27 2019   HQ   HQ(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 11:58:36 2019   HQ   HQ(config)#interface f0/1
-মঙ্গল সেপ্টেম্বর 10 11:58:41 2019   HQ   HQ(config-if)#description HR
-মঙ্গল সেপ্টেম্বর 10 11:58:58 2019   HQ   HQ(config-if)#ip address 172.16.5.2 255.255.255.224
-মঙ্গল সেপ্টেম্বর 10 11:59:00 2019   HQ   HQ(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 11:59:04 2019   HQ   HQ(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 11:59:24 2019   HQ   HQ(config)#interface s0/3/1
-মঙ্গল সেপ্টেম্বর 10 11:59:35 2019   HQ   HQ(config-if)#ip address 12.12.12.1 255.255.255.252
-মঙ্গল সেপ্টেম্বর 10 11:59:38 2019   HQ   HQ(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 11:59:42 2019   HQ   HQ(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 12:00:07 2019   HQ   HQ(config)#ip dhcp pool Admin_Pool
-মঙ্গল সেপ্টেম্বর 10 12:00:24 2019   HQ   HQ(dhcp-config)#network 172.16.10.0 255.255.255.192
-মঙ্গল সেপ্টেম্বর 10 12:00:34 2019   HQ   HQ(dhcp-config)#default-router 172.16.10.2
-মঙ্গল সেপ্টেম্বর 10 12:00:56 2019   HQ   HQ(dhcp-config)#dns-server 8.8.8.8
-মঙ্গল সেপ্টেম্বর 10 12:01:07 2019   HQ   HQ(dhcp-config)#exit
-মঙ্গল সেপ্টেম্বর 10 12:01:28 2019   HQ   HQ(config)#ip dhcp excluded-address 172.16.10.1 172.16.10.20
-মঙ্গল সেপ্টেম্বর 10 12:01:39 2019   HQ   HQ(config)#ip dhcp HR_Pool
-মঙ্গল সেপ্টেম্বর 10 12:01:45 2019   HQ   HQ(config)#ip dhcp pool HR_Pool
-মঙ্গল সেপ্টেম্বর 10 12:01:55 2019   HQ   HQ(dhcp-config)#network 172.16.5.0 255.255.255.224
-মঙ্গল সেপ্টেম্বর 10 12:02:04 2019   HQ   HQ(dhcp-config)#default-router 172.16.5.2
-মঙ্গল সেপ্টেম্বর 10 12:02:11 2019   HQ   HQ(dhcp-config)#dns-server 8.8.8.8
-মঙ্গল সেপ্টেম্বর 10 12:02:18 2019   HQ   HQ(dhcp-config)#exit
-মঙ্গল সেপ্টেম্বর 10 12:03:26 2019   Router2   Router>enable 
-মঙ্গল সেপ্টেম্বর 10 12:03:30 2019   Router2   Router#configure terminal 
-মঙ্গল সেপ্টেম্বর 10 12:03:47 2019   Router2   Router(config)#interface g0/0
-মঙ্গল সেপ্টেম্বর 10 12:03:52 2019   Router2   Router(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 12:04:02 2019   Router2   Router(config)#hostname Branch-1
-মঙ্গল সেপ্টেম্বর 10 12:04:11 2019   Router2   Branch-1(config)#interface g0/0
-মঙ্গল সেপ্টেম্বর 10 12:04:24 2019   Router2   Branch-1(config-if)#description IT
-মঙ্গল সেপ্টেম্বর 10 12:04:34 2019   Router2   Branch-1(config-if)#ip address 172.16.3.2 255.255.255.128
-মঙ্গল সেপ্টেম্বর 10 12:04:38 2019   Router2   Branch-1(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 12:04:41 2019   Router2   Branch-1(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 12:04:47 2019   Router2   Branch-1(config)#interface g0/1
-মঙ্গল সেপ্টেম্বর 10 12:04:56 2019   Router2   Branch-1(config-if)#description Marketing
-মঙ্গল সেপ্টেম্বর 10 12:05:12 2019   Router2   Branch-1(config-if)#ip address 172.16.4.2 255.255.255.248
-মঙ্গল সেপ্টেম্বর 10 12:05:15 2019   Router2   Branch-1(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 12:05:20 2019   Router2   Branch-1(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 12:05:26 2019   Router2   Branch-1(config)#interface g0/2
-মঙ্গল সেপ্টেম্বর 10 12:05:33 2019   Router2   Branch-1(config-if)#description Sales
-মঙ্গল সেপ্টেম্বর 10 12:05:53 2019   Router2   Branch-1(config-if)#ip address 172.16.1.2 255.255.255.0
-মঙ্গল সেপ্টেম্বর 10 12:05:55 2019   Router2   Branch-1(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 12:05:57 2019   Router2   Branch-1(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 12:06:07 2019   Router2   Branch-1(config)#interface s0/3/0
-মঙ্গল সেপ্টেম্বর 10 12:06:17 2019   Router2   Branch-1(config-if)#ip address 12.12.12.2 255.255.255.252
-মঙ্গল সেপ্টেম্বর 10 12:06:20 2019   Router2   Branch-1(config-if)#no shutdown 
-মঙ্গল সেপ্টেম্বর 10 12:06:25 2019   Router2   Branch-1(config-if)#exit
-মঙ্গল সেপ্টেম্বর 10 12:11:33 2019   Branch-1   Branch-1(config)#ip dhcp pool IT_Pool
-মঙ্গল সেপ্টেম্বর 10 12:11:43 2019   Branch-1   Branch-1(dhcp-config)#network 172.16.3.0 255.255.255.128
-মঙ্গল সেপ্টেম্বর 10 12:12:02 2019   Branch-1   Branch-1(dhcp-config)#default-router 172.16.3.2
-মঙ্গল সেপ্টেম্বর 10 12:12:07 2019   Branch-1   Branch-1(dhcp-config)#dns-server 8.8.8.8
-মঙ্গল সেপ্টেম্বর 10 12:12:14 2019   Branch-1   Branch-1(dhcp-config)#exit
-মঙ্গল সেপ্টেম্বর 10 12:12:35 2019   Branch-1   Branch-1(config)#ip dhcp excluded-address 172.16.3.1 172.16.3.10
-মঙ্গল সেপ্টেম্বর 10 12:12:52 2019   Branch-1   Branch-1(config)#ip dhcp pool Sales_Pool
-মঙ্গল সেপ্টেম্বর 10 12:13:03 2019   Branch-1   Branch-1(dhcp-config)#network 172.16.1.0 255.255.0
-মঙ্গল সেপ্টেম্বর 10 12:13:22 2019   Branch-1   Branch-1(dhcp-config)#network 172.16.1.0 255.255.255.0
-মঙ্গল সেপ্টেম্বর 10 12:13:32 2019   Branch-1   Branch-1(dhcp-config)#default-router 172.16.1.2
-মঙ্গল সেপ্টেম্বর 10 12:13:41 2019   Branch-1   Branch-1(dhcp-config)#dns-server 8.8.8.8
-মঙ্গল সেপ্টেম্বর 10 12:13:54 2019   Branch-1   Branch-1(dhcp-config)#exit
+DHCP Configuration
+===================
+1. HQ Router Configuration
+----------------------------
+Router>en
+Router#conf terminal 
+Router(config)#hostname HQ
+
+HQ(config)#interface f0/0
+HQ(config-if)#description Admin
+HQ(config-if)#ip address 172.16.10.2 255.255.255.192
+HQ(config-if)#no shutdown 
+HQ(config-if)#exit
+
+HQ(config)#interface f0/1
+HQ(config-if)#description HR
+HQ(config-if)#ip address 172.16.5.2 255.255.255.224
+HQ(config-if)#no shutdown 
+HQ(config-if)#exit
+
+HQ(config)#interface s0/3/1
+HQ(config-if)#ip address 12.12.12.1 255.255.255.252
+HQ(config-if)#no shutdown 
+HQ(config-if)#exit
+
+DHCP Configuration for Admin Department
+-----------------------------------------
+HQ(config)#ip dhcp pool Admin_Pool
+HQ(dhcp-config)#network 172.16.10.0 255.255.255.192
+HQ(dhcp-config)#default-router 172.16.10.2
+HQ(dhcp-config)#dns-server 172.16.10.100
+HQ(dhcp-config)#exit
+
+DHCP Configuration for HR Department
+--------------------------------------
+HQ(config)#ip dhcp pool HR_Pool
+HQ(dhcp-config)#network 172.16.5.0 255.255.255.224
+HQ(dhcp-config)#default-router 172.16.5.2
+HQ(dhcp-config)#dns-server 172.16.10.100
+HQ(dhcp-config)#exit
+
+
+2. Branch-1 Router Configuration
+----------------------------------
+Router>enable
+Router#configure terminal 
+Router(config)#hostname Branch-1
+
+Branch-1(config)#interface g0/0
+Branch-1(config-if)#description IT
+Branch-1(config-if)#ip address 172.16.3.2 255.255.255.128
+Branch-1(config-if)#no shutdown 
+Branch-1(config-if)#exit
+
+Branch-1(config)#interface g0/1
+Branch-1(config-if)#description Marketing
+Branch-1(config-if)#ip address 172.16.4.2 255.255.255.248
+Branch-1(config-if)#no shutdown 
+Branch-1(config-if)#exit
+
+Branch-1(config)#interface g0/2
+Branch-1(config-if)#description Sales
+Branch-1(config-if)#ip address 172.16.1.2 255.255.255.0
+Branch-1(config-if)#no shutdown 
+Branch-1(config-if)#exit
+
+Branch-1(config)#interface s0/3/0
+Branch-1(config-if)#ip address 12.12.12.2 255.255.255.252
+Branch-1(config-if)#no shutdown 
+Branch-1(config-if)#exit
+
+DHCP Configuration for IT Department
+--------------------------------------
+Branch-1(config)#ip dhcp pool IT_Pool
+Branch-1(dhcp-config)#network 172.16.3.0 255.255.255.128
+Branch-1(dhcp-config)#default-router 172.16.3.2
+Branch-1(dhcp-config)#dns-server 172.16.10.100
+Branch-1(dhcp-config)#exit
+
+Exclude Ip Addresses from IT DHCP pool
+----------------------------------------
+Branch-1(config)#ip dhcp excluded-address 172.16.3.1 172.16.3.5
+
+DHCP Configuration for Sales Department
+-----------------------------------------
+Branch-1(config)#ip dhcp pool Sales_Pool
+Branch-1(dhcp-config)#network 172.16.1.0 255.255.255.0
+Branch-1(dhcp-config)#default-router 172.16.1.2
+Branch-1(dhcp-config)#dns-server 172.16.10.100
+Branch-1(dhcp-config)#exit
+
+DHCP Configuration for Marketing Department
+---------------------------------------------
+Branch-1(config)#ip dhcp pool Marketing_Pool
+Branch-1(dhcp-config)#network 172.16.4.0 255.255.255.248
+Branch-1(dhcp-config)#default-router 172.16.4.2
+Branch-1(dhcp-config)#dns-server 172.16.10.100
+Branch-1(dhcp-config)#exit
+
+Exclude Ip Addresses from Marketing DHCP pool
+-----------------------------------------------
+Branch-1(config)#ip dhcp excluded-address 172.16.4.1 172.16.4.5
+Branch-1(config)#exit
+
+Show DHCP Pool Information
+---------------------------
+Branch-1#show ip dhcp pool
+Branch-1#show ip dhcp binding
+Branch-1#show ip dhcp conflict
