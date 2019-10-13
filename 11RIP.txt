@@ -1,0 +1,177 @@
+// Ip address configuration in the interfaces
+HQ   Router>en
+HQ   Router#conf terminal 
+HQ   Router(config)#hostname HQ
+HQ   HQ(config)#interface s0/3/0
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#ip address 16.16.16.2 255.255.255.252
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#exit
+HQ   HQ(config)#int s0/3/1
+HQ   HQ(config-if)#ip address 10.10.10.1 255.255.255.252
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#exit
+HQ   HQ(config)#int s0/1/0
+HQ   HQ(config-if)#ip address 15.15.15.1 255.255.255.252
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#exit
+
+ISP   Router>en
+ISP   Router#configure terminal 
+ISP   Router(config)#hostname ISP
+ISP   ISP(config)#interface f0/0
+ISP   ISP(config-if)#ip address 172.16.20.2 255.255.255.224
+ISP   ISP(config-if)#no shutdown 
+ISP   ISP(config-if)#exit
+ISP   ISP(config)#interface s0/3/0
+ISP   ISP(config-if)#ip address 16.16.16.1 255.255.255.252
+ISP   ISP(config-if)#no shutdown 
+ISP   ISP(config-if)#exit
+
+BR1   Router>en
+BR1   Router#conf terminal
+BR1   Router(config)#hostname BR1
+BR1   BR1(config)#interface s0/3/0
+BR1   BR1(config-if)#ip address 10.10.10.2 255.255.255.252
+BR1   BR1(config-if)#no shutdown 
+BR1   BR1(config-if)#exit
+BR1   BR1(config)#int s0/3/1
+BR1   BR1(config-if)#ip address 11.11.11.1 255.255.255.252
+BR1   BR1(config-if)#no shutdown 
+BR1   BR1(config-if)#exit
+
+BR2   Router>en
+BR2   Router#conf terminal
+BR2   Router(config)#hostname BR2
+BR2   BR2(config)#int s0/3/1
+BR2   BR2(config-if)#ip address 11.11.11.2 255.255.255.252
+BR2   BR2(config-if)#no shutdown 
+BR2   BR2(config-if)#exit
+BR2   BR2(config)#int s0/3/0
+BR2   BR2(config-if)#ip address 12.12.12.1 255.255.255.252
+BR2   BR2(config-if)#no shutdown 
+BR2   BR2(config-if)#exit
+
+BR3   Router>en
+BR3   Router#conf terminal
+BR3   Router(config)#hostname BR3
+BR3   BR3(config)#interface s0/3/1
+BR3   BR3(config-if)#no shutdown 
+BR3   BR3(config-if)#ip address 12.12.12.2 255.255.255.252
+BR3   BR3(config-if)#no shutdown 
+BR3   BR3(config-if)#exit
+BR3   BR3(config)#int s0/3/0
+BR3   BR3(config-if)#ip address 13.13.13.1 255.255.255.252
+BR3   BR3(config-if)#no shutdown 
+BR3   BR3(config-if)#exit
+BR3   BR3(config)#int f0/0
+BR3   BR3(config-if)#ip address 192.168.5.2 255.255.255.192
+BR3   BR3(config-if)#no shutdown 
+BR3   BR3(config-if)#exit
+BR3   BR3(config)#int f0/1
+BR3   BR3(config-if)#ip address 192.168.10.2 255.255.255.0
+BR3   BR3(config-if)#no shutdown 
+BR3   BR3(config-if)#exit
+
+BR4   Router>enable
+BR4   Router#conf terminal 
+BR4   Router(config)#hostname BR4
+BR4   BR4(config)#interface s0/3/0
+BR4   BR4(config-if)#ip address 13.13.13.2 255.255.255.252
+BR4   BR4(config-if)#no shutdown 
+BR4   BR4(config-if)#exit
+BR4   BR4(config)#int s0/3/1
+BR4   BR4(config-if)#ip address 14.14.14.1 255.255.255.252
+BR4   BR4(config-if)#no shutdown 
+BR4   BR4(config-if)#exit
+
+BR5   Router>en
+BR5   Router#conf ter
+BR5   Router(config)#hostname BR5
+BR5   BR5(config)#int s0/3/1
+BR5   BR5(config-if)#ip address 14.14.14.2 255.255.255.252
+BR5   BR5(config-if)#no shutdown 
+BR5   BR5(config-if)#exit
+BR5   BR5(config)#int s0/3/0
+BR5   BR5(config-if)#ip address 15.15.15.2 255.255.255.252
+BR5   BR5(config-if)#no shutdown 
+BR5   BR5(config-if)#exit
+
+// Default Routing on ISP Router
+ISP   ISP>enable
+ISP   ISP#conf terminal
+ISP   ISP(config)#ip route 0.0.0.0 0.0.0.0 s0/3/0
+ISP   ISP(config)#exit
+
+// Rip Configuration
+HQ   HQ>enable
+HQ   HQ#conf terminal 
+HQ   HQ(config)#do show ip route connected
+HQ   HQ(config)#router rip
+HQ   HQ(config-router)#version 2
+HQ   HQ(config-router)#network 10.10.10.0
+HQ   HQ(config-router)#network 15.15.15.0
+HQ   HQ(config-router)#network 16.16.16.0
+HQ   HQ(config-router)#no auto-summary
+HQ   HQ(config-router)#exit
+
+HQ   HQ(config)#ip route 0.0.0.0 0.0.0.0 s0/3/0
+
+HQ   HQ(config)#router rip
+HQ   HQ(config-router)#default-information originate 
+HQ   HQ(config-router)#exit
+
+BR1   BR1>enable
+BR1   BR1#conf terminal 
+BR1   BR1(config)#do show ip route connected
+BR1   BR1(config)#router rip
+BR1   BR1(config-router)#version 2
+BR1   BR1(config-router)#network 10.10.10.0
+BR1   BR1(config-router)#network 11.11.11.0
+BR1   BR1(config-router)#no auto-summary 
+BR1   BR1(config-router)#exit
+
+BR2   BR2>enable
+BR2   BR2#conf terminal
+BR2   BR2(config)#do show ip route connected
+BR2   BR2(config)#router rip
+BR2   BR2(config-router)#version 2
+BR2   BR2(config-router)#network 11.11.11.0
+BR2   BR2(config-router)#network 12.12.12.0
+BR2   BR2(config-router)#no auto-summary 
+BR2   BR2(config-router)#exit
+
+BR3   BR3>enable
+BR3   BR3#config terminal 
+BR3   BR3(config)#do show ip route connected
+BR3   BR3(config)#router rip
+BR3   BR3(config-router)#version 2
+BR3   BR3(config-router)#network 12.12.12.0
+BR3   BR3(config-router)#network 13.13.13.0
+BR3   BR3(config-router)#network 192.168.5.0
+BR3   BR3(config-router)#network 192.168.10.0
+BR3   BR3(config-router)#no auto-summary 
+BR3   BR3(config-router)#passive-interface f0/0
+BR3   BR3(config-router)#passive-interface f0/1
+BR3   BR3(config-router)#exit
+
+BR4   BR4>enable
+BR4   BR4#conf terminal 
+BR4   BR4(config)#do show ip route connected
+BR4   BR4(config)#router rip
+BR4   BR4(config-router)#version 2
+BR4   BR4(config-router)#network 13.13.13.0
+BR4   BR4(config-router)#network 14.14.14.0
+BR4   BR4(config-router)#no auto-summary 
+BR4   BR4(config-router)#exit
+
+BR5   BR5>enable
+BR5   BR5#conf ter
+BR5   BR5(config)#do show ip route connected
+BR5   BR5(config)#router rip
+BR5   BR5(config-router)#version 2
+BR5   BR5(config-router)#network 14.14.14.0
+BR5   BR5(config-router)#network 15.15.15.0
+BR5   BR5(config-router)#no auto-summary 
+BR5   BR5(config-router)#exit
+
