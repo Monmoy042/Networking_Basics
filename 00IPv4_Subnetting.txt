@@ -1,0 +1,24 @@
+Given Network: 172.16.5.0/24
+
+Required Host:
+    Department A --> 55
+    Department B --> 105
+    Department C --> 25
+    Department D --> 38
+    Department E --> 8
+
+1. Subnet the given subnet for the department 
+
+// Binary Representation of the given IP Address:
+===================================================
+(2^7)  (2^6)  (2^5)  (2^4)  (2^3)  (2^2)  (2^1)  (2^0)
+ 128     64     32     16     8      4      2      1
+ 1       0      1      0      1      1      0      0 ---> 172
+ 1       0      0      1      0      0      0      0 ---> 16
+ 0       0      0      0      0      1      0      1 ---> 5
+
+ Solution:
+-----------
+                      /24
+172.00010000.00000101.|00000000
+
