@@ -1,0 +1,119 @@
+// Ip Configuration 
+--------------------
+BR1   Router>enable 
+BR1   Router#configure terminal 
+BR1   Router(config)#hostname BR1
+BR1   BR1(config)#interface f0/0
+BR1   BR1(config-if)#ip address 172.16.1.2 255.255.255.0
+BR1   BR1(config-if)#no shutdown 
+BR1   BR1(config-if)#exit
+BR1   BR1(config)#interface s0/3/0
+BR1   BR1(config-if)#ip address 12.12.12.1 255.255.255.252
+BR1   BR1(config-if)#no shutdown 
+BR1   BR1(config-if)#exit
+BR1   BR1(config)#interface s0/3/1
+BR1   BR1(config-if)#ip address 11.11.11.1 255.255.255.252
+BR1   BR1(config-if)#no shutdown 
+BR1   BR1(config-if)#exit
+
+HQ   Router>enable 
+HQ   Router#configure terminal 
+HQ   Router(config)#hostname HQ
+HQ   HQ(config)#interface f0/0
+HQ   HQ(config-if)#ip address 192.168.1.2 255.255.255.224
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#exit
+HQ   HQ(config)#s0/3/1
+HQ   HQ(config)#interface s0/3/1
+HQ   HQ(config-if)#ip address 12.12.12.2 255.255.255.252
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#no ip address 
+HQ   HQ(config-if)#ip address 13.13.13.1 255.255.255.252
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#exit
+HQ   HQ(config)#int s0/3/0
+HQ   HQ(config-if)#ip address 12.12.12.2 255.255.255.252
+HQ   HQ(config-if)#no shutdown 
+HQ   HQ(config-if)#exit
+
+BR2   Router>enable 
+BR2   Router#configure terminal 
+BR2   Router(config)#hostname BR2
+BR2   BR2(config)#interface s0/3/1
+BR2   BR2(config-if)#ip address 11.11.11.2 255.255.255.252
+BR2   BR2(config-if)#no shutdown 
+BR2   BR2(config-if)#exit
+BR2   BR2(config)#interface s0/3/0
+BR2   BR2(config-if)#ip address 13.13.13.2 255.255.255.252
+BR2   BR2(config-if)#no shutdown 
+BR2   BR2(config-if)#exit
+BR2   BR2(config)#interface f0/0
+BR2   BR2(config-if)#ip address 172.16.5.2 255.255.255.192
+BR2   BR2(config-if)#no shutdown 
+BR2   BR2(config-if)#exit
+
+// Dynamic Routing(RIP) Configuration
+--------------------------------------
+HQ   HQ>enable 
+HQ   HQ#configure terminal 
+HQ   HQ(config)#do show ip route connected
+HQ   HQ(config)#router rip 
+HQ   HQ(config-router)#version 2
+HQ   HQ(config-router)#network 12.12.12.0
+HQ   HQ(config-router)#network 13.13.13.0
+HQ   HQ(config-router)#network 192.168.1.0
+HQ   HQ(config-router)#no auto-summary 
+HQ   HQ(config-router)#passive-interface f0/0
+HQ   HQ(config-router)#exit
+
+BR1   BR1>enable 
+BR1   BR1#configure terminal 
+BR1   BR1(config)#do show ip route connected
+BR1   BR1(config)#router rip
+BR1   BR1(config-router)#version 2
+BR1   BR1(config-router)#network 11.11.11.0
+BR1   BR1(config-router)#network 12.12.12.0
+BR1   BR1(config-router)#network 172.16.1.0
+BR1   BR1(config-router)#network 172.16.2.0
+BR1   BR1(config-router)#no auto-summary 
+BR1   BR1(config-router)#passive-interface f0/0
+BR1   BR1(config-router)#passive-interface f0/1
+BR1   BR1(config-router)#exit
+
+BR2   BR2>enable 
+BR2   BR2#configure terminal 
+BR2   BR2(config)#do show ip route connected
+BR2   BR2(config)#router rip
+BR2   BR2(config-router)#version 2
+BR2   BR2(config-router)#network 11.11.11.0
+BR2   BR2(config-router)#network 13.13.13.0
+BR2   BR2(config-router)#network 172.16.5.0
+BR2   BR2(config-router)#no auto-summary 
+BR2   BR2(config-router)#passive-interface f0/0
+BR2   BR2(config-router)#exit
+
+// Standard ACL Configuration
+------------------------------
+
+//Block a specific host
+HQ   HQ>enable 
+HQ   HQ#configure terminal 
+HQ   HQ(config)#ip access-list standard 1
+HQ   HQ(config-std-nacl)#deny host 172.16.5.5
+HQ   HQ(config-std-nacl)#permit any
+HQ   HQ(config-std-nacl)#exit
+
+HQ   HQ(config)#interface s0/3/1
+HQ   HQ(config-if)#ip access-group 1 in
+HQ   HQ(config-if)#exit
+
+// Block a full network
+HQ   HQ(config)#ip access-list standard blockSales
+HQ   HQ(config-std-nacl)#deny 172.16.1.0 0.0.0.255
+HQ   HQ(config-std-nacl)#permit any 
+HQ   HQ(config-std-nacl)#exit
+
+HQ   HQ(config)#interface s0/3/0
+HQ   HQ(config-if)#ip access-group blockSales in
+HQ   HQ(config-if)#exit
+
