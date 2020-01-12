@@ -1,13 +1,16 @@
+# VLSM - Variable Length Subnet Mask
+
 Given Network: 172.16.5.0/24
 
 Required Host:
-    Department A --> 55
-    Department B --> 105
-    Department C --> 25
-    Department D --> 38
-    Department E --> 8
+    Department A --> 55   ---> (2^6) = 32 - 6 = 26 (New Network Address)
+    Department B --> 105  ---> (2^7) = 32 - 7 = 25 (New Network Address)
+    Department C --> 25   ---> (2^5) = 32 - 5 = 27 (New Network Address)
+    Department D --> 38   ---> (2^6) = 32 - 6 = 26 (New Network Address)
+    Department E --> 8    ---> (2^4) = 32 - 4 = 28 (New Network Address)
 
-1. Subnet the given subnet for the department 
+1. Subnet the given subnet for the Department B.
+2. 
 
 // Binary Representation of the given IP Address:
 ===================================================
@@ -19,6 +22,19 @@ Required Host:
 
  Solution:
 -----------
+
+# Step:1
+=========
                       /24
-172.00010000.00000101.|00000000
+172.00010000.00000101.|0 0 0 0 0 0 0 0
+                        /25  
+172.00010000.00000101.|0|0 0 0 0 0 0 0 --> This network is for Department B
+172.00010000.00000101. 0|0 0 0 0 0 0 1
+172.00010000.00000101. 0|0 0 0 0 0 1 0
+172.00010000.00000101. 0|0 0 0 0 0 1 1
+172.00010000.00000101. 0|0 0 0 0 1 0 0
+172.00010000.00000101. 0|0 0 0 0 1 0 1
+
+
+
 
