@@ -10,7 +10,8 @@ Required Host:
     Department E --> 8    ---> (2^4) = 32 - 4 = 28 (New Network Address)
 
 1. Subnet the given subnet for the Department B.
-2. 
+2. From Step-1 subnet the fourth subnet for the Department A. Assign the fifth subnet to Department A and assign the 10th subnet to the Department D. 
+
 
 // Binary Representation of the given IP Address:
 ===================================================
@@ -35,6 +36,26 @@ Required Host:
 172.00010000.00000101. 0|0 0 0 0 1 0 0
 172.00010000.00000101. 0|0 0 0 0 1 0 1
 
+
+# Step:2
+=========
+                        /25
+172.00010000.00000101. 0|0 0 0 0 0 1 1
+                          /26
+172.00010000.00000101. 0 0|0 0 0 0 1 1
+172.00010000.00000101. 0 0|0 0 0 1 0 0
+172.00010000.00000101. 0 0|0 0 0 1 0 1
+172.00010000.00000101. 0 0|0 0 0 1 1 0
+172.00010000.00000101. 0 0|0 0 0 1 1 1 --> This network is for Department A
+172.00010000.00000101. 0 0|0 0 1 0 0 0
+172.00010000.00000101. 0 0|0 0 1 0 0 1
+172.00010000.00000101. 0 0|0 0 1 0 1 0
+172.00010000.00000101. 0 0|0 0 1 0 1 1
+172.00010000.00000101. 0 0|0 0 1 1 0 0 --> This network is for Department D
+172.00010000.00000101. 0 0|0 0 1 1 0 1
+
+# Step:3
+=========
 
 
 
