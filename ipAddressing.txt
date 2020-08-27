@@ -1,8 +1,8 @@
-# IPv4 Addressing
+✅ IPv4 Addressing
 Q: What is IP address?
 Answer: IP address is an address which help us to recognize the computer. It is layer three logical address assigned by an administrator. MAC addresses are built in to NIC. It resides layer 3 of ODI model. It used to identify specific devices on a network. Every device on the internet has a unique IP address. 
 
-// IPv4 Address 
+✅ IPv4 Address 
     -- Layer 3 or network layer protocol
     -- Connection less protocol 
     -- TCP is connection oriented protocol
@@ -19,7 +19,7 @@ Answer: IP address is an address which help us to recognize the computer. It is 
 Example: 10.1.1.1
 10.1.1.1 can be written as: 00001010.00000001.00000001.00000001
 
-# IP address can divided by two main portions:
+✅ IP address can divided by two main portions:
     1. Network Portion (Network ID)
     2. Host Portion (Host ID)
 Network Address:
@@ -32,7 +32,7 @@ Host Address:
 
 Note: Routers are populated with network addresses
 
-# Address Classes
+✅ Address Classes
     -- IPv4 address is divided into 5 Classes
     a) Class A --> Unicast Traffic
     b) Class B --> Unicast Traffic
@@ -42,13 +42,13 @@ Note: Routers are populated with network addresses
 
 Note: IPv6 does not use Classes of IP address. Class A , B and C replaced by CIDR in 1993
 
-# Class range
+✅ Class range
     $ Class A --> 0.0.0.0 to 127.255.255.255
     $ Class B --> 128.0.0.0 to 191.255.255.255
     $ Class C --> 192.0.0.0 to 223.255.255.255
     $ Class D --> 224.0.0.0 to 239.255.255.255
     $ Class E --> 240.0.0.0 to 254.255.255.255
-# Class A
+✅ Class A
 Exception: 
     -- 127.0.0.0 block is reserved for loopback address
     -- 0.0.0.0 is reserved for default network
@@ -61,7 +61,7 @@ Example: 10.1.1.1
 00001010.       | 00000001.00000001.00000001
   Networks      |        Hosts
 
-# Class B
+✅ Class B
       16 bits       |     16 bits
 00000000.00000000.  |00000000.00000000
 <----Networks---->  | <----Hosts----->
@@ -69,7 +69,7 @@ Example: 172.16.1.1
 10101100.00010000.| 00000001.00000001
    Networks       |        Hosts
 
-# Class C
+✅ Class C
           24 bits           |   8 bits
 00000000.00000000.00000000. |  00000000
 <--------Networks-------->  |  <-Hosts->
@@ -77,17 +77,17 @@ Example: 192.168.1.1
 11000000.10101000.00000001.|  00000001
         Networks           |   Hosts
 
-# Class D
+✅ Class D
 Example: 239.1.1.1 is a private multicast address, which is used in any organization internally. Multicast address used in OSPF routing protocol. like OSPF use 224.0.0.5 and 224.0.0.5. 224.0.0X = Link Local Multicast address
 
-# Class E
+✅ Class E
 These are reserved addresses. This class is used for research and experiment. 
 
-# Special Address
+✅ Special Address
     -- loopback address
     -- local broadcast address
 
-# Directed broadcast address
+✅ Directed broadcast address
     -- host sends data to all devices on a specific network
     -- Entire host portion will fill with binary 1s
 Example: 172.31.0.0
@@ -97,3 +97,78 @@ Binary Representation: 10101100.00011111. | 11111111.11111111
                             network       |        Hosts
 
 Note: Routers can route directed broadcast. But by default it is disabled. 
+
+✅ Local Broadcast Address
+    -- communicates with all the devices on local network
+    -- all octets will fill with binary 1s
+Example: In binary - 11111111.11111111.11111111.11111111
+In Decimal - 255.255.255.255
+
+Host request an IP address from a DHCP Server
+
+End device ------------Broadcast-------------> DHCP Server
+(NO IP address)    (255.255.255.255)                       
+
+So, in a network initially end devices has no IP addresses. SO the devices locally broadcast the message. If there are any DHCP server configured, the end devices will immediately got dynamically logical addresses or IP addresses. 
+
+    -- local broadcast always dropped by layer 3 routers and layer 3 switches. But we can overwrite the functionality by DHCP forwarding or DHCP relay
+
+          -----(Brodacast)--->
+End Device======================Switch===============DHCP
+ (VLAN 10)                                          (VLAN20)
+
+Here, when end device request to the switch for DHCP request. But switch will not accept this or switch will block the local broadcast. We need to configure DHCP forwarding or DHCP delay to the network. Then the end device will get the IP address through the DHCP server. Here, we need to get the command ip helper address to the switch. Then the switch will be able to communicate to the DHCP server and get the IP address for the end devices. Then on behalf of the end devices switch will unicast DHCP request to the server. 
+
+✅ Local Loopback Address
+    -- used to let a system send message to itself for testing
+    -- this is very useful to make sure that the TCP/IP stack is correctly installed ona machine 
+    -- typical loopback address is 127.0.0.1 
+    -- IPv6 loopback address is: ::1
+    -- anything on this range 127.0.0.0 is a loopback address
+Note: Routers and switches have also loopback address. But these address are not same as local loopback address. Router or switch may have loopback interface like 10.1.1.1/32.
+
+✅ Private IP address
+$ RFC - Request for comments 
+    -- internet standards
+$ RFC1149 - IP over avian carrier (Pigeon) 
+$ RFC1918 - Private IP Address 
+    -- non routable on the internet
+    -- these addresses are blocked by the ISPs to send data to the internet.
+
+✅ Private IP address Classes
+$ Class A --> 10.0.0.0/8 to 10.255.255.255
+$ Class B --> 172.16.0.0/12 to 172.31.255.255
+$ Class C --> 192.168.0.0/16 to 192.168.255.255
+
+Three blocks for IP address 
+    -- 1 class A network
+    -- 16 class B networks 
+    -- 256 class C networks
+
+✅ IPv4 Link-Local Address
+    -- RFC3927 
+    -- Automatic private IP address (APIPA)
+    -- Microsoft link local addresses
+Generally PC configured for DHCP 
+    -- When no server is available * Range 169.254.0.0/16 255.255.0.0
+    -- link-local addresses allow two pcs to communicate when there are no DHCP server available
+Note: be careful of this address range it will not be routed
+
+✅ Subnet Mask
+    -- used to determine network and host portion of an IP address
+
+✅ Network Mask 
+    -- Class A,B and C networks have default masks also known as natural masks
+$ Class A : 255.0.0.0
+$ Class B : 255.255.0.0
+$ Class C : 255.255.255.0
+
+Example-1: 10.1.1.1 255.0.0.0
+Network address: 00001010.00000001.00000001.00000001
+Subnet mask in Binary : 11111111.00000000.00000000.00000000
+Subnet mask in Decimal:        255.0.0.0
+
+Example-2: 1.1.1.1 255.255.0.0
+Network address: 00000001.00000001.00000001.00000001
+Subnet mask in Binary : 11111111.11111111.00000000.00000000
+Subnet mask in Decimal:        255.255.0.0
