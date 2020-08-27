@@ -1,0 +1,99 @@
+# IPv4 Addressing
+Q: What is IP address?
+Answer: IP address is an address which help us to recognize the computer. It is layer three logical address assigned by an administrator. MAC addresses are built in to NIC. It resides layer 3 of ODI model. It used to identify specific devices on a network. Every device on the internet has a unique IP address. 
+
+// IPv4 Address 
+    -- Layer 3 or network layer protocol
+    -- Connection less protocol 
+    -- TCP is connection oriented protocol
+        # It has ability to retransmit missing packets   
+        # UDP does not retransmit packets
+        ||===========|| ----SYN-----> ||===========||
+        ||Transmitter|| <--SYN/ACK--- || Receiver  ||
+        ||===========|| ----ACK-----> ||===========||
+    -- Packet treated independently --> May take different paths
+    -- No data recovery feature. If data is corrupted, end device should have the backup to retrieve the data. 
+    -- 32 bits
+    -- Separate between 4 octets (8 bits or 1 byte)
+
+Example: 10.1.1.1
+10.1.1.1 can be written as: 00001010.00000001.00000001.00000001
+
+# IP address can divided by two main portions:
+    1. Network Portion (Network ID)
+    2. Host Portion (Host ID)
+Network Address:
+    -- Identifies a specific network
+    -- Routers maintain routing tables that contain the network addresses. Router communicates based on this address
+    -- Look at the destination of IP address and match to teh network
+Host Address: 
+    -- Identifies a specific endpoint on a network
+    -- Servers, printers, PCS, Iphone, Ipad etc. 
+
+Note: Routers are populated with network addresses
+
+# Address Classes
+    -- IPv4 address is divided into 5 Classes
+    a) Class A --> Unicast Traffic
+    b) Class B --> Unicast Traffic
+    c) Class C --> Unicast Traffic
+    d) Class D --> Multicast
+    e) Class E --> Reserved for future or experimental process
+
+Note: IPv6 does not use Classes of IP address. Class A , B and C replaced by CIDR in 1993
+
+# Class range
+    $ Class A --> 0.0.0.0 to 127.255.255.255
+    $ Class B --> 128.0.0.0 to 191.255.255.255
+    $ Class C --> 192.0.0.0 to 223.255.255.255
+    $ Class D --> 224.0.0.0 to 239.255.255.255
+    $ Class E --> 240.0.0.0 to 254.255.255.255
+# Class A
+Exception: 
+    -- 127.0.0.0 block is reserved for loopback address
+    -- 0.0.0.0 is reserved for default network
+    Actual Range for Class A is: 1.0.0.0 to 126.255.255.255
+
+    8 bits    |              24 bits
+00000000.     |    00000000.00000000.00000000
+<-Networks--> |<---------Hosts-------------->
+Example: 10.1.1.1
+00001010.       | 00000001.00000001.00000001
+  Networks      |        Hosts
+
+# Class B
+      16 bits       |     16 bits
+00000000.00000000.  |00000000.00000000
+<----Networks---->  | <----Hosts----->
+Example: 172.16.1.1 
+10101100.00010000.| 00000001.00000001
+   Networks       |        Hosts
+
+# Class C
+          24 bits           |   8 bits
+00000000.00000000.00000000. |  00000000
+<--------Networks-------->  |  <-Hosts->
+Example: 192.168.1.1
+11000000.10101000.00000001.|  00000001
+        Networks           |   Hosts
+
+# Class D
+Example: 239.1.1.1 is a private multicast address, which is used in any organization internally. Multicast address used in OSPF routing protocol. like OSPF use 224.0.0.5 and 224.0.0.5. 224.0.0X = Link Local Multicast address
+
+# Class E
+These are reserved addresses. This class is used for research and experiment. 
+
+# Special Address
+    -- loopback address
+    -- local broadcast address
+
+# Directed broadcast address
+    -- host sends data to all devices on a specific network
+    -- Entire host portion will fill with binary 1s
+Example: 172.31.0.0
+Directed Broadcast Address will be: 172.31.255.255
+This is a Class B address. So, first 2 octets will indicates the network portion and last 2 octets will indicate the host portion. Here, host portion is fill with binary 1s
+Binary Representation: 10101100.00011111. | 11111111.11111111
+                            network       |        Hosts
+
+Note: Routers can route directed broadcast. But by default it is disabled. 
