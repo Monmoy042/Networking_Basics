@@ -172,3 +172,27 @@ Example-2: 1.1.1.1 255.255.0.0
 Network address: 00000001.00000001.00000001.00000001
 Subnet mask in Binary : 11111111.11111111.00000000.00000000
 Subnet mask in Decimal:        255.255.0.0
+
+✅ Subnet Mask demonstration
+Discontiguous Subnet Mask: 240.255.3.191
+In binary: 11110000.11111111.00000110.11000000
+Note: CISCO do not support discontiguous mask
+Only contiguous subnet mask are supported.
+Example: 255.240.0.0--> 11111111.11110000.00000000.00000000
+         255.255.192.0---> 11111111.11111111.11000000.00000000
+
+✅ CIDR(Classless Inter-Domain Routing)
+    -- introduced in 1993
+    -- replaced classful IP Addressing
+    -- VLSM
+    -- notation: 10.0.0.0/8
+
+✅ CIDR notation
+    -- /24 ---> 255.255.255.0
+    -- /25 ---> 255.255.255.128
+Example: 172.16.1.0/27
+Subnet Mask: 255.255.255.224
+                                          27
+IN Binary:  10101100.00010000.00000001.000|00000
+Subnet mask:11111111.11111111.11111111.111|00000
+IN Decimal: 255.255.255.224
