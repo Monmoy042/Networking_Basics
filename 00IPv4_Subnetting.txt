@@ -1,20 +1,20 @@
 # VLSM - Variable Length Subnet Mask
 
-Given Network: 172.16.5.0/24
-
+✅ Given Network: 172.16.5.0/24
 Required Host:
     Department A --> 55   ---> (2^6) = 32 - 6 = 26 (New Network Address)
     Department B --> 105  ---> (2^7) = 32 - 7 = 25 (New Network Address)
     Department C --> 25   ---> (2^5) = 32 - 5 = 27 (New Network Address)
-    Department D --> 38   ---> (2^6) = 32 - 6 = 26 (New Network Address)
+    Department D --> 60   ---> (2^6) = 32 - 6 = 26 (New Network Address)
     Department E --> 8    ---> (2^4) = 32 - 4 = 28 (New Network Address)
 
-1. Subnet the given subnet for the Department B.
-2. From Step-1 subnet the fourth subnet for the Department A. Assign the fifth subnet to Department A and assign the 10th subnet to the Department D. 
-
+Step-1: Subnet the given subnet for the Department B and assign the first subnet to the Department B. 
+Step-2: From Step-1 subnet the second subnet for the Department A. Assign the second subnet to Department A and first subnet for the Department D. 
+Step-3: Subnet the available subnet from Step-2 for Department C and assign the second subnet to Department C. 
+Step-4: From the available subnet from Step-2 further subnet the second subnet for Department E and assign the second subnet to the Department E.
 
 // Binary Representation of the given IP Address:
-===================================================
+==================================================
 (2^7)  (2^6)  (2^5)  (2^4)  (2^3)  (2^2)  (2^1)  (2^0)
  128     64     32     16     8      4      2      1
  1       0      1      0      1      1      0      0 ---> 172
@@ -24,50 +24,90 @@ Required Host:
  1       1      0      0      0      0      0      0 ---> 192
  1       0      1      0      1      0      0      0 ---> 168
 
- Solution:
------------
-
-# Step:1
+Solution:
 =========
-                      /24
-172.00010000.00000101.|0 0 0 0 0 0 0 0
-                        /25  
-172.00010000.00000101.|0|0 0 0 0 0 0 0 --> This network is for Department B
-172.00010000.00000101. 0|0 0 0 0 0 0 1
-172.00010000.00000101. 0|0 0 0 0 0 1 0
-172.00010000.00000101. 0|0 0 0 0 0 1 1
-172.00010000.00000101. 0|0 0 0 0 1 0 0
-172.00010000.00000101. 0|0 0 0 0 1 0 1
+Step:1
+======
+         /24 /25
+172.16.5.| 0 | 0 0 0 0 0 0 0 ---> First Subnet(Department B) 
+172.16.5.| 1 | 0 0 0 0 0 0 0 
 
+Step:2
+======
+            /25 /26
+172.16.5. 1 | 0 | 0 0 0 0 0 0 ---> First Subnet(Department D)
+172.16.5. 1 | 1 | 0 0 0 0 0 0 ---> Second Subnet(Department A)
 
-# Step:2
-=========
-                        /25
-172.00010000.00000101. 0|0 0 0 0 0 1 1
-                          /26
-172.00010000.00000101. 0 0|0 0 0 0 1 1
-172.00010000.00000101. 0 0|0 0 0 1 0 0
-172.00010000.00000101. 0 0|0 0 0 1 0 1
-172.00010000.00000101. 0 0|0 0 0 1 1 0
-172.00010000.00000101. 0 0|0 0 0 1 1 1 --> This network is for Department A
-172.00010000.00000101. 0 0|0 0 1 0 0 0
-172.00010000.00000101. 0 0|0 0 1 0 0 1
-172.00010000.00000101. 0 0|0 0 1 0 1 0
-172.00010000.00000101. 0 0|0 0 1 0 1 1
-172.00010000.00000101. 0 0|0 0 1 1 0 0 --> This network is for Department D
-172.00010000.00000101. 0 0|0 0 1 1 0 1
+Step:3
+======
+              /26 /27
+172.16.5. 1 1 | 0 | 0 0 0 0 0
+172.16.5. 1 1 | 1 | 0 0 0 0 0 ---> Second Subnet(Department C)
 
-# Step:3
-=========
+Step:4
+======
+                /27 /28
+172.16.5. 1 1 1 | 0 | 0 0 0 0
+172.16.5. 1 1 1 | 1 | 0 0 0 0 ---> Second Subnet(Department E)
 
+Finally we have,
+Department A: 172.16.5.192/26
+Department B: 172.16.5.0/25
+Department C: 172.16.5.224/27
+Department D: 172.16.5.128/26
+Department E: 172.16.5.240/28
 
+Department A
+------------
+Network ID: 172.16.5.192/26
+In Binary:       10101100.00010000.00000101.11000000
+Subnet Mask:     11111111.11111111.11111111.11000000 ---> 255.255.255.192
+Broadcast ID:    10101100.00010000.00000101.11111111 ---> 172.16.5.255
+First Usable IP: 10101100.00010000.00000101.11000001 ---> 172.16.5.193
+Last Usable IP:  10101100.00010000.00000101.11111110 ---> 172.16.5.254
+
+Department B
+------------
+Network ID: 172.16.5.0/25
+In Binary:       10101100.00010000.00000101.00000000
+Subnet Mask:     11111111.11111111.11111111.10000000 ---> 255.255.255.128
+Broadcast ID:    10101100.00010000.00000101.01111111 ---> 172.16.5.127
+First Usable IP: 10101100.00010000.00000101.00000001 ---> 172.16.5.1
+Last Usable IP:  10101100.00010000.00000100.01111110 ---> 172.16.5.126
+
+Department C
+------------
+Network ID: 172.16.5.224/27
+In Binary:       10101100.00010000.00000101.11100000
+Subnet Mask:     11111111.11111111.11111111.11100000 ---> 255.255.255.224
+Broadcast ID:    10101100.00010000.00000101.11111111 ---> 172.16.5.255
+First Usable IP: 10101100.00010000.00000101.11100001 ---> 172.16.5.225
+Last Usable IP:  10101100.00010000.00000101.11111110 ---> 172.16.5.254
+
+Department D
+------------
+Network ID: 172.16.5.128/26
+In Binary:       10101100.00010000.00000101.10000000
+Subnet Mask:     11111111.11111111.11111111.11000000 ---> 255.255.255.192
+Broadcast ID:    10101100.00010000.00000101.10111111 ---> 172.16.5.191
+First Usable IP: 10101100.00010000.00000101.10000001 ---> 172.16.5.129
+Last Usable IP:  10101100.00010000.00000101.10111110 ---> 172.16.5.190
+
+Department E
+------------
+Network ID: 172.16.5.240/28
+In Binary:       10101100.00010000.00000101.11110000
+Subnet Mask:     11111111.11111111.11111111.11110000 ---> 255.255.255.240
+Broadcast ID:    10101100.00010000.00000101.11111111 ---> 172.16.5.255
+First Usable IP: 10101100.00010000.00000101.11110001 ---> 172.16.5.241
+Last Usable IP:  10101100.00010000.00000101.11111110 ---> 172.16.5.254
 
 ✅ Given Network: 172.16.0.0/10
     ABC Company: Sales - 80
-                Marketing - 110
-                HR - 10
-                IT - 8
-                Customer Service - 22
+                 Marketing - 110
+                 HR - 10
+                 IT - 8
+                 Customer Service - 22
 Step-1: Subnet the given subnet and assign the first subnet to Sales department and 5th subnet to the Marketing department while wasting the fewest addresses. 
 Step-2: From the available subnets that you have created in the Step-1, subnet further the second subnet as per the host requirement of Customer Service Department. 
 Step-3: From the subnets that you created in Step-2 assign the first subnet to Customer service department and subnet further the third subnet and assign the first and second subnet to HR and IT department.
@@ -109,6 +149,7 @@ Host bits needed = 2^5
 New Network address = 172.16.0.0/27 --> 2^5 = (32-5) = 27
 
 Step-1
+======
         /10                             /25
 172.0 0 | 0 1 0 0 0 0.0 0 0 0 0 0 0 0.0 | 0 0 0 0 0 0 0 ----> First Subnet(Sales Department)
 172.0 0 | 0 1 0 0 0 0.0 0 0 0 0 0 0 0.1 | 0 0 0 0 0 0 0
@@ -119,11 +160,13 @@ Step-1
 172.0 0 | 0 1 0 0 0 0.0 0 0 0 0 0 1 1.0 | 0 0 0 0 0 0 0
 
 Step-2
+======
                                        /25   /27
 172.0 0 0 1 0 0 0 0.0 0 0 0 0 0 0 0. 1 | 0 0 | 0 0 0 0 0 
 
 
-Step-3 
+Step-3
+====== 
                                        /25   /27
 172.0 0 0 1 0 0 0 0.0 0 0 0 0 0 0 0. 1 | 0 0 | 0 0 0 0 0 ----> First Subnet(Customer Service Department)
 172.0 0 0 1 0 0 0 0.0 0 0 0 0 0 0 0. 1 | 0 1 | 0 0 0 0 0 
@@ -145,7 +188,7 @@ Sales Department
 ----------------
 Network ID: 172.16.0.0/25
 In Binary:       10101100.00010000.00000000.00000000
-Subnet Mask:     11111111.11111111.11111111.10000000 -->255.255.255.128
+Subnet Mask:     11111111.11111111.11111111.10000000 --> 255.255.255.128
 Broadcast ID:    10101100.00010000.00000000.01111111 --> 172.16.0.127
 First Usable IP: 10101100.00010000.00000000.00000001 --> 172.16.0.1
 Last Usable IP : 10101100.00010000.00000000.01111110 --> 172.16.0.126
@@ -182,6 +225,6 @@ IT Department
 Network ID: 172.16.208/28
 In Binary:       10101100.00010000.00000000.11010000
 Subnet Mask:     11111111.11111111.11111111.11110000 ---> 255.255.255.240
-Broadcast ID:    10101100.00010000.00000000.11011111 --> 172.16.0.223
-First Usable IP: 10101100.00010000.00000000.11010001 --> 172.16.209
-Last Usable IP:  10101100.00010000.00000000.11011110 --> 172.16.0.222
+Broadcast ID:    10101100.00010000.00000000.11011111 ---> 172.16.0.223
+First Usable IP: 10101100.00010000.00000000.11010001 ---> 172.16.209
+Last Usable IP:  10101100.00010000.00000000.11011110 ---> 172.16.0.222
