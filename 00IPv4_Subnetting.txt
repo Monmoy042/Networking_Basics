@@ -1,20 +1,7 @@
 # VLSM - Variable Length Subnet Mask
 
-✅ Given Network: 172.16.5.0/24
-Required Host:
-    Department A --> 55   ---> (2^6) = 32 - 6 = 26 (New Network Address)
-    Department B --> 105  ---> (2^7) = 32 - 7 = 25 (New Network Address)
-    Department C --> 25   ---> (2^5) = 32 - 5 = 27 (New Network Address)
-    Department D --> 60   ---> (2^6) = 32 - 6 = 26 (New Network Address)
-    Department E --> 8    ---> (2^4) = 32 - 4 = 28 (New Network Address)
-
-Step-1: Subnet the given subnet for the Department B and assign the first subnet to the Department B. 
-Step-2: From Step-1 subnet the second subnet for the Department A. Assign the second subnet to Department A and first subnet for the Department D. 
-Step-3: Subnet the available subnet from Step-2 for Department C and assign the second subnet to Department C. 
-Step-4: From the available subnet from Step-2 further subnet the second subnet for Department E and assign the second subnet to the Department E.
-
-// Binary Representation of the given IP Address:
-==================================================
+// Binary to Decimal Conversion Table:
+======================================
 (2^7)  (2^6)  (2^5)  (2^4)  (2^3)  (2^2)  (2^1)  (2^0)
  128     64     32     16     8      4      2      1
  1       0      1      0      1      1      0      0 ---> 172
@@ -23,84 +10,91 @@ Step-4: From the available subnet from Step-2 further subnet the second subnet f
  0       0      0      0      1      0      1      0 ---> 10
  1       1      0      0      0      0      0      0 ---> 192
  1       0      1      0      1      0      0      0 ---> 168
+ 1       0      0      0      0      0      0      0 ---> 128
+
+✅ Given Network: 10.128.192.0/18
+Required Host:
+        Admin        --> 10   ---> (2^4) = 32 - 4 = 28 (New Network Address)
+        Marketing    --> 150  ---> (2^8) = 32 - 7 = 24 (New Network Address)
+        HR           --> 35   ---> (2^6) = 32 - 6 = 26 (New Network Address)
+        Accounting   --> 56   ---> (2^6) = 32 - 6 = 26 (New Network Address)
+
+Step-1: Subnet the given subnet for the host requirement of Marketing Department and assign the sixth subnet to the Marketing Department. 
+Step-2: From Step-1 subnet the third subnet for Accounting Department. Assign the second & third subnet to the Accounting and HR department respectively.
+Step-3: Now from the Step-2 subnet the fourth subnet for the host requirement of Admin Department and assign the third subnet for Admin Department.  
 
 Solution:
 =========
 Step:1
 ======
-         /24 /25
-172.16.5.| 0 | 0 0 0 0 0 0 0 ---> First Subnet(Department B) 
-172.16.5.| 1 | 0 0 0 0 0 0 0 
+            /18             /24
+10.128. 1 1 | 0 0 0 0 0 0 . | 0 0 0 0 0 0 0 0
+10.128. 1 1 | 0 0 0 0 0 1 . | 0 0 0 0 0 0 0 0
+10.128. 1 1 | 0 0 0 0 1 0 . | 0 0 0 0 0 0 0 0
+10.128. 1 1 | 0 0 0 0 1 1 . | 0 0 0 0 0 0 0 0
+10.128. 1 1 | 0 0 0 1 0 0 . | 0 0 0 0 0 0 0 0
+10.128. 1 1 | 0 0 0 1 0 1 . | 0 0 0 0 0 0 0 0 ---> Sixth Subnet(Marketing Department)
 
 Step:2
 ======
-            /25 /26
-172.16.5. 1 | 0 | 0 0 0 0 0 0 ---> First Subnet(Department D)
-172.16.5. 1 | 1 | 0 0 0 0 0 0 ---> Second Subnet(Department A)
+                          /24   /26
+10.128. 1 1 0 0 0 0 1 0 . | 0 0 | 0 0 0 0 0 0
+10.128. 1 1 0 0 0 0 1 0 . | 0 1 | 0 0 0 0 0 0 ---> Second Subnet(Accounting Department)
+10.128. 1 1 0 0 0 0 1 0 . | 1 0 | 0 0 0 0 0 0 ---> Third Subnet(HR Department)
+10.128. 1 1 0 0 0 0 1 0 . | 1 1 | 0 0 0 0 0 0
 
 Step:3
-======
-              /26 /27
-172.16.5. 1 1 | 0 | 0 0 0 0 0
-172.16.5. 1 1 | 1 | 0 0 0 0 0 ---> Second Subnet(Department C)
+====== 
+                              /26   /28
+10.128. 1 1 0 0 0 0 1 0 . 1 1 | 0 0 | 0 0 0 0
+10.128. 1 1 0 0 0 0 1 0 . 1 1 | 0 1 | 0 0 0 0
+10.128. 1 1 0 0 0 0 1 0 . 1 1 | 1 0 | 0 0 0 0 ---> Third Subnet(Admin Department)
+10.128. 1 1 0 0 0 0 1 0 . 1 1 | 1 1 | 0 0 0 0
 
-Step:4
-======
-                /27 /28
-172.16.5. 1 1 1 | 0 | 0 0 0 0
-172.16.5. 1 1 1 | 1 | 0 0 0 0 ---> Second Subnet(Department E)
+
 
 Finally we have,
-Department A: 172.16.5.192/26
-Department B: 172.16.5.0/25
-Department C: 172.16.5.224/27
-Department D: 172.16.5.128/26
-Department E: 172.16.5.240/28
+        Admin: 10.128.194.224/28
+        Marketing: 10.128.197.0/24
+        HR: 10.128.194.128/26
+        Accounting: 10.128.194.64/26
 
-Department A
-------------
-Network ID: 172.16.5.192/26
-In Binary:       10101100.00010000.00000101.11000000
-Subnet Mask:     11111111.11111111.11111111.11000000 ---> 255.255.255.192
-Broadcast ID:    10101100.00010000.00000101.11111111 ---> 172.16.5.255
-First Usable IP: 10101100.00010000.00000101.11000001 ---> 172.16.5.193
-Last Usable IP:  10101100.00010000.00000101.11111110 ---> 172.16.5.254
-
-Department B
-------------
-Network ID: 172.16.5.0/25
-In Binary:       10101100.00010000.00000101.00000000
-Subnet Mask:     11111111.11111111.11111111.10000000 ---> 255.255.255.128
-Broadcast ID:    10101100.00010000.00000101.01111111 ---> 172.16.5.127
-First Usable IP: 10101100.00010000.00000101.00000001 ---> 172.16.5.1
-Last Usable IP:  10101100.00010000.00000100.01111110 ---> 172.16.5.126
-
-Department C
-------------
-Network ID: 172.16.5.224/27
-In Binary:       10101100.00010000.00000101.11100000
-Subnet Mask:     11111111.11111111.11111111.11100000 ---> 255.255.255.224
-Broadcast ID:    10101100.00010000.00000101.11111111 ---> 172.16.5.255
-First Usable IP: 10101100.00010000.00000101.11100001 ---> 172.16.5.225
-Last Usable IP:  10101100.00010000.00000101.11111110 ---> 172.16.5.254
-
-Department D
-------------
-Network ID: 172.16.5.128/26
-In Binary:       10101100.00010000.00000101.10000000
-Subnet Mask:     11111111.11111111.11111111.11000000 ---> 255.255.255.192
-Broadcast ID:    10101100.00010000.00000101.10111111 ---> 172.16.5.191
-First Usable IP: 10101100.00010000.00000101.10000001 ---> 172.16.5.129
-Last Usable IP:  10101100.00010000.00000101.10111110 ---> 172.16.5.190
-
-Department E
-------------
-Network ID: 172.16.5.240/28
-In Binary:       10101100.00010000.00000101.11110000
+Admin Department
+----------------
+Network ID: 10.128.194.224/28
+In Binary:       00001010.10000000.11000010.11100000
 Subnet Mask:     11111111.11111111.11111111.11110000 ---> 255.255.255.240
-Broadcast ID:    10101100.00010000.00000101.11111111 ---> 172.16.5.255
-First Usable IP: 10101100.00010000.00000101.11110001 ---> 172.16.5.241
-Last Usable IP:  10101100.00010000.00000101.11111110 ---> 172.16.5.254
+Broadcast ID:    00001010.10000000.11000010.11111111 ---> 10.128.194.255
+First Usable IP: 00001010.10000000.11000010.11100001 ---> 10.128.194.225
+Last Usable IP:  00001010.10000000.11000010.11111110 ---> 10.128.194.254
+
+Marketing Department
+--------------------
+Network ID: 10.128.197.0/24
+In Binary:       00001010.10000000.11000101.00000000
+Subnet Mask:     11111111.11111111.11111111.00000000 ---> 255.255.255.0
+Broadcast ID:    00001010.10000000.11000101.11111111 ---> 10.128.197.255
+First Usable IP: 00001010.10000000.11000101.00000001 ---> 10.128.197.1
+Last Usable IP:  00001010.10000000.11000101.11111110 ---> 10.128.197.254
+
+HR Department
+-------------
+Network ID: 10.128.194.128/26
+In Binary:       00001010.10000000.11000010.10000000
+Subnet Mask:     11111111.11111111.11111111.11000000 ---> 255.255.255.192
+Broadcast ID:    00001010.10000000.11000010.11111111 ---> 10.128.194.255
+First Usable IP: 00001010.10000000.11000010.10000001 ---> 10.128.194.129
+Last Usable IP:  00001010.10000000.11000010.11111110 ---> 10.128.194.254
+
+Accounting Department
+---------------------
+Network ID: 10.128.194.64/26
+In Binary:       00001010.10000000.11000010.01000000
+Subnet Mask:     11111111.11111111.11111111.11000000 ---> 255.255.255.192
+Broadcast ID:    00001010.10000000.11000010.01111111 ---> 10.128.194.127 
+First Usable IP: 00001010.10000000.11000010.01000001 ---> 10.128.194.65
+Last Usable IP:  00001010.10000000.11000010.01111110 ---> 10.128.194.126
+
 
 ✅ Given Network: 172.16.0.0/10
     ABC Company: Sales - 80

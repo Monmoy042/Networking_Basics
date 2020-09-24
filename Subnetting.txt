@@ -1,0 +1,28 @@
+
+IP configuration on the Router
+-------------------------------
+HQ   Router>enable
+HQ   Router#conf terminal 
+HQ   Router(config)#int ethernet 0/0/0
+HQ   Router(config-if)#ip address 10.128.194.225 255.255.255.240
+HQ   Router(config-if)#no shutdown 
+HQ   Router(config-if)#exit
+
+HQ   Router(config)#int ethernet 0/1/0
+HQ   Router(config-if)#ip address 10.128.197.1 255.255.255.0
+HQ   Router(config-if)#no shutdown 
+HQ   Router(config-if)#exit
+
+HQ   Router(config)#int ethernet 0/2/0
+HQ   Router(config-if)#ip address 10.128.194.129 255.255.255.192
+HQ   Router(config-if)#no shutdown 
+HQ   Router(config-if)#exit
+
+HQ   Router(config)#int ethernet 0/3/0
+HQ   Router(config-if)#ip address 10.128.194.65 255.255.255.192
+HQ   Router(config-if)#no shutdown 
+HQ   Router(config-if)#exit
+
+Show Running-Configuration
+--------------------------
+HQ   Router#show running-config 
